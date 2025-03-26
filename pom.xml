@@ -26,6 +26,7 @@
         <postgresql-driver>42.7.3</postgresql-driver>
         <flyway.version>9.22.3</flyway.version>
 
+
     </properties>
 
     <dependencies>
