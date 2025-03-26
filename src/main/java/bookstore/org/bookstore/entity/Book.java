@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+/**
+ * Сущность "Книга"
+ */
 @Data
 @Accessors(chain = true)
 @Entity
@@ -35,7 +38,7 @@ public class Book extends BaseEntity {
     private String description;
 
     /**
-     * Цена книги
+     * Цена книги (у.е.)
      */
     private Long price;
 
