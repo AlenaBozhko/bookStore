@@ -18,7 +18,26 @@ public record BookDto(
     String currency
 
 ) {
+    /**
+     * Сформировать DTO из данных книги
+     *
+     * @param book книга
+     * @return DTO из данных книги
+     */
+    public static BookDto from(Book book) {
+        if (book == null) {
+            throw new NullPointerException("Book DTO cannot be created from null book");
+        }
+        return new BookDto(
+            book.getTitle(),
+            book.getGenre(),
+            book.getAuthor(),
+            book.getDescription(),
+            book.getPrice(),
+            book.getCurrency()
+        );
 
+    }
 
     /**
      * Сформировать сущность книги из текущего DTO
