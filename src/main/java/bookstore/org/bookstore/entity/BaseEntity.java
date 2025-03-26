@@ -4,6 +4,7 @@ import bookstore.org.bookstore.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,6 +28,7 @@ public class BaseEntity {
     /**
      * id сущности
      */
+    @Schema(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +36,7 @@ public class BaseEntity {
     /**
      * Дата создания сущности
      */
+    @Schema(hidden = true)
     @NotNull
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -43,6 +46,7 @@ public class BaseEntity {
     /**
      * Дата обновления сущности
      */
+    @Schema(hidden = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "updated")
@@ -51,6 +55,7 @@ public class BaseEntity {
     /**
      * Статус сущности
      */
+    @Schema(hidden = true)
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

@@ -1,9 +1,27 @@
+application:
+  swagger:
+    enabled: true
+    title: book-shop
+    description: books-shop (local-profile)
+    version: 1.0.1
+    contactName: A
+    contactUrl: https://github.com/AlreadyReady1
+    contactEmail: noEmail
+    servers: >
+      http://localhost:8082/book-service
+
 server:
   port: 8082
   servlet:
     context-path: /book-service
   error:
     include-message: always
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    use-root-path: true
+  show-actuator: false
 
 spring:
   mvc:
