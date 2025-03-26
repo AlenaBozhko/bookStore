@@ -4,13 +4,13 @@ create table if not exists books
     "id"		    bigserial       	    PRIMARY KEY,
     created 	    timestamp with time zone       not null    default now(),
     updated		    timestamp with time zone,
-    status	        varchar(15)     not null    default 'ACTIVE',
-    title	        varchar(255)    not null,
-    author	        varchar(255)    not null,
-    genre	        varchar(255)    not null,
+    status	        varchar(15)    not null    default 'ACTIVE',
+    title	        varchar(255)   not null,
+    author	        varchar(255)   not null,
+    genre	        varchar(15)    not null,
     description	    varchar(255)   not null,
     price	        integer        not null,
-    currency	    varchar(255)    not null
+    currency	    varchar(255)   not null
     );
 
 comment on table  books is 'Книги';
