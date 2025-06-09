@@ -2,6 +2,7 @@ package bookstore.org.bookstore.service;
 
 import bookstore.org.bookstore.entity.Book;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -49,4 +50,13 @@ public interface BookService {
      * @param id идентификатор книги
      */
     void deleteBookById(long id);
+
+    /**
+     * Получить список книг по автору
+     *
+     * @param author книга
+     * @return List<Book> список книг
+     */
+    List<Book> getBooksByAuthor(String author);
+
 }
