@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -40,10 +42,10 @@ public class BookManagementResourceRest implements BookManagementResource {
         log.info("Received request for registry new book");
         Book registeredBook = bookService.createBook(bookDto.toBook());
         URI bookLocation = URI.create(
-            ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/v1/book-management/book/{bookId}")
-                .build(Map.of("bookId", registeredBook.getId()))
-                .toString()
+                ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/api/v1/book-management/book/{bookId}")
+                        .build(Map.of("bookId", registeredBook.getId()))
+                        .toString()
         );
         return ResponseEntity.created(bookLocation).body(BookDto.from(registeredBook));
     }
@@ -59,11 +61,11 @@ public class BookManagementResourceRest implements BookManagementResource {
         log.debug("Getting book by ID: {}", bookId);
 
         return bookService.getById(bookId)
-            .map(BookDto::from)
-            .map(ResponseEntity::ok)
-            .orElseGet(
-                () -> ResponseEntity.notFound().build()
-            );
+                .map(BookDto::from)
+                .map(ResponseEntity::ok)
+                .orElseGet(
+                        () -> ResponseEntity.notFound().build()
+                );
     }
 
     /**
@@ -77,11 +79,11 @@ public class BookManagementResourceRest implements BookManagementResource {
         log.debug("Getting book by title: {}", title);
 
         return bookService.getByTitle(title)
-            .map(BookDto::from)
-            .map(ResponseEntity::ok)
-            .orElseGet(
-                () -> ResponseEntity.notFound().build()
-            );
+                .map(BookDto::from)
+                .map(ResponseEntity::ok)
+                .orElseGet(
+                        () -> ResponseEntity.notFound().build()
+                );
     }
 
     @Override
@@ -99,4 +101,18 @@ public class BookManagementResourceRest implements BookManagementResource {
         bookService.deleteBookById(bookId);
         return ResponseEntity.noContent().build();
     }
+
+
+    @Override
+    public ResponseEntity<List<BookDto>> getBooksByAuthor(String author) {
+        log.debug("Getting books by author: {}", author);
+        List<Book> books = bookService.getBooksByAuthor(author);
+
+        return Optional.of(books)
+                .filter(b -> !b.isEmpty()) //проверяет, пустой ли список. Если пустой, то сразу попадаем в метод .orElseGet
+                .map(b -> b.stream().map(BookDto::from).toList()) //преобразуем List<BookDto> в поток, чтобы потом сопоставить с Books и вернуть список книг
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

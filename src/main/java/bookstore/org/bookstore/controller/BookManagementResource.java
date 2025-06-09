@@ -1,6 +1,7 @@
 package bookstore.org.bookstore.controller;
 
 import bookstore.org.bookstore.dto.BookDto;
+import bookstore.org.bookstore.entity.Book;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.List;
 
 /**
  * API управления книгами
@@ -68,5 +71,14 @@ public interface BookManagementResource {
      */
     @DeleteMapping("/book/{bookId}")
     ResponseEntity<?> deleteBook(@PathVariable("bookId") Long bookId);
+
+    /**
+     * Получить список книг по автору
+     *
+     * @param author книга
+     * @return List<Book> список книг
+     */
+    @GetMapping("/books/{author}")
+            ResponseEntity<List<BookDto>> getBooksByAuthor(@PathVariable String author);
 
 }

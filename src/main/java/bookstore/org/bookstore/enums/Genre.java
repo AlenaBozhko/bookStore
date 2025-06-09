@@ -12,7 +12,8 @@ public enum Genre {
     FANTASY("Фантастика"),
     DETECTIVE("Детектив"),
     NOVEL("Роман"),
-    HORROR("Ужасы");
+    HORROR("Ужасы"),
+    RUSSIAN_CLASSICAL("Русская классика");
 
     private String description;
 
