@@ -1,0 +1,52 @@
+package bookstore.org.bookstore.dto;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.brutforcer.user.entity.User;
+import org.brutforcer.user.enums.Sex;
+
+import java.time.LocalDate;
+
+/**
+ * Данные пользователя
+ */
+@Schema(description = "Данные пользователя")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public record UserDto(
+
+        @Schema(description = "ID", example = "1") long id,
+        @Schema(description = "Логин", example = "ferZ") String username,
+        @Schema(description = "Имя", example = "Николай") String firstName,
+        @Schema(description = "Фамилия", example = "Ставрогин") String lastName,
+        @Schema(description = "Отчество", example = "Всеволодович") String middleName,
+        @Schema(description = "Адрес электронной почты", example = "ferz@mail.ru") String email,
+        @Schema(description = "Телефонный номер", example = "+7(800)555-3535") String phoneNumber,
+        @Schema(description = "Дата рождения", example = "1994-11-11") LocalDate birthDate,
+        @Schema(description = "Место рождения", example = "Российская Федерация, Тульская область, город Тула") String birthPlace
+
+) {
+
+    /**
+     * Сформировать DTO из данных пользователя
+     *
+     * @param user пользователь
+     * @return DTO из данных пользователя
+     */
+    public static UserDto from(User user) {
+        if (user == null) {
+            throw new NullPointerException("User DTO cannot be created from null user");
+        }
+
+        return new UserDto(
+                user.getId(),
+                user.getUsername(),
+                user.getProfile().getFirstName(),
+                user.getProfile().getLastName(),
+                user.getProfile().getmiddleName(),
+                user.getProfile().getEmail(),
+                user.getProfile().getPhoneNumber(),
+                user.getProfile().getBirthDate(),
+                user.getProfile().getBirthPlace().getTextAddress()
+        );
+    }
+}

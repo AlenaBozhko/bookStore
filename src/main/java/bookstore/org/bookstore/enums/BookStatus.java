@@ -1,6 +1,6 @@
 package bookstore.org.bookstore.enums;
 
-public enum Status {
+public enum BookStatus {
     ACTIVE,
     NOT_ACTIVE,
     UNCONFIRMED,

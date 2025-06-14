@@ -1,0 +1,109 @@
+package org.brutforcer.user.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.hibernate.Hibernate;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Пользователь
+ */
+@Data
+@Accessors(chain = true) //Позволяет использовать цепочку вызовов для сеттеров,
+// что позволяет записывать значения полей в одном выражении
+@Entity
+@NoArgsConstructor //Генерирует конструктор без параметров, который необходим для работы с JPA
+@Table(name = "users") //Указывает, что данная сущность будет связана с таблицей users в базе данных.
+public class User extends BaseEntity {
+
+    /**
+     * Логин
+     */
+    @NotBlank //Аннотация @NotBlank в Java применяется только к строкам
+    // и проверяет, что строка не равна null, не является пустой и не состоит только из пробелов
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
+    /**
+     * Пароль
+     */
+    @NotBlank
+    @JsonIgnore
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    /**
+     * Профиль
+     */
+    @NotNull
+    @Embedded //используется для обозначения того, что поле класса является встроенной сущностью.
+    // Это означает, что данные этого поля будут храниться в той же таблице,
+    // что и родительская сущность, а не в отдельной таблице.
+    private UserProfile profile;
+
+ /*   *//**
+     * Список ролей
+     *//*
+    @OneToMany(fetch = FetchType.LAZY) //fetch = FetchType.LAZY указывает,
+    // что роли должны загружаться лениво. Это значит, что роли не будут загружены
+    // из базы данных до тех пор, пока они не понадобятся (например, при обращении к списку ролей).
+    @JsonIgnore //используется, чтобы поле "роль" не сериализовалось в JSON.
+    // Это полезно для предотвращения утечки информации о ролях пользователя
+    @JoinTable( //определяет промежуточную таблицу, которая будет использоваться для связи между пользователями и ролями
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
+*/
+/*   /**
+     * Добавить роль
+     *
+     * @param role роль
+     *//**//**//**//**//**//**//**//*
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    @Override
+    public String toString() {
+        return "User: " + username
+                + ", \npassword: " + password
+                + ", \nprofile: " + profile;
+    }*/
+
+    @Override //проверка на существование уже такого же юзера
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            return false;
+        }
+        User user = (User) o;
+        return getId() != null
+                && Objects.equals(username, user.username)
+                && Objects.equals(password, user.password)
+                && Objects.equals(profile, user.profile);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+}

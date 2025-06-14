@@ -1,0 +1,83 @@
+package org.brutforcer.user.entity;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.brutforcer.user.enums.Sex;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+
+/**
+ * Профиль пользователя
+ */
+@Data
+@Accessors(chain = true)
+@Embeddable
+@NoArgsConstructor
+public class UserProfile {
+
+    /**
+     * Имя
+     */
+    @NotBlank
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    /**
+     * Фамилия
+     */
+    @NotBlank
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    /**
+     * Отчество
+     */
+    @NotBlank
+    @Column(name = "middle_name", nullable = false)
+    private String middleName;
+
+    /**
+     * Адрес электронной почты
+     */
+    @NotBlank
+    @Email
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    /**
+     * Номер телефона
+     */
+    @NotBlank
+    @Pattern(regexp = "^(\\+)?((\\d{2,3}) ?\\d|\\d)(([ -]?\\d)|( ?(\\d{2,3}) ?)){5,12}\\d$")
+    @Column(name = "phone_number", nullable = false, unique = true)
+    private String phoneNumber;
+
+    /**
+     * Дата рождения
+     */
+    @NotNull
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
+
+    @Override
+    public String toString() {
+        return "firstName: " + firstName
+                + ", lastName: " + lastName
+                + ", middleName: " + middleName
+                + ", email: " + email
+                + ", phoneNumber:  " + phoneNumber
+                + ", birthDate: " + birthDate + ",\n"
+    }
+}
